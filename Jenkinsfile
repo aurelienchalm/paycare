@@ -14,7 +14,12 @@ pipeline {
 
         stage('Run Unit Tests in Docker') {
             steps {
-                sh 'docker run --rm ${DOCKER_IMAGE} pytest test_etl.py --junitxml=unit-tests.xml'
+                sh '''
+                    docker run --rm \
+                    -v $(pwd)/unit-tests.xml:/app/unit-tests.xml \
+                    ${DOCKER_IMAGE} \
+                    pytest test_etl.py --junitxml=unit-tests.xml
+                '''
             }
         }
 
