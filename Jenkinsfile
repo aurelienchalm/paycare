@@ -15,17 +15,18 @@ pipeline {
         stage('Run Unit Tests in Docker') {
             steps {
                 sh '''
+                    mkdir -p test-reports
                     docker run --rm \
-                    -v $(pwd)/unit-tests.xml:/app/unit-tests.xml \
+                    -v $(pwd)/test-reports:/app/test-reports \
                     ${DOCKER_IMAGE} \
-                    pytest test_etl.py --junitxml=unit-tests.xml
+                    pytest test_etl.py --junitxml=test-reports/unit-tests.xml
                 '''
             }
         }
 
         stage('Publish Test Results') {
             steps {
-                junit 'unit-tests.xml'
+                junit 'test-reports/unit-tests.xml'
             }
         }
     }
