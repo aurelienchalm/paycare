@@ -6,12 +6,6 @@ pipeline {
     }
 
     stages {
-        stage('Clone Repository') {
-            steps {
-                git 'https://github.com/ton-utilisateur/paycare-etl.git' // ← à adapter
-            }
-        }
-
         stage('Build Docker Image for Tests') {
             steps {
                 sh 'docker build -t ${DOCKER_IMAGE} .'
@@ -20,7 +14,6 @@ pipeline {
 
         stage('Run Unit Tests in Docker') {
             steps {
-                // Exécute les tests dans le conteneur
                 sh 'docker run --rm ${DOCKER_IMAGE} pytest test_etl.py --junitxml=unit-tests.xml'
             }
         }
@@ -34,7 +27,7 @@ pipeline {
 
     post {
         success {
-            echo '✅ Tests passed with success!'
+            echo '✅ Tests passed!'
         }
         failure {
             echo '❌ Tests failed!'
