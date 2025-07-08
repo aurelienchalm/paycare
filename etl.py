@@ -24,6 +24,9 @@ def transform_data(data):
         # Calculate net salary after tax
         data_cleaned['net_salary'] = data_cleaned['salary'] - data_cleaned['tax']
         
+        #ici on peut avoir un predict d'un modèle qui est sur MLFlow
+        # prdict(X)....
+        
         print("Data transformation successful.")
         return data_cleaned
     except Exception as e:
@@ -46,8 +49,14 @@ def etl_process(input_file, output_file):
         transformed_data = transform_data(data)
         if transformed_data is not None:
             load_data(transformed_data, output_file)
-
+"""
 if __name__ == "__main__":
     input_file = 'input_data.csv'
     output_file = 'output_data.csv'
+    etl_process(input_file, output_file)
+"""
+    
+if __name__ == "__main__":
+    input_file = 'data/input_data.csv'
+    output_file = 'data/output_data.csv'
     etl_process(input_file, output_file)
